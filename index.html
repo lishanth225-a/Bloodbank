@@ -1,0 +1,647 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LifeDrop | Blood Bank Management System</title>
+
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+
+<body>
+
+<div class="app">
+
+    <!-- Sidebar -->
+    <aside class="sidebar">
+        <div class="brand">
+            <div class="brand-icon">✚</div>
+            <div>
+                <h2>LifeDrop</h2>
+                <p>Blood Bank System</p>
+            </div>
+        </div>
+
+        <div class="menu-label">MAIN MENU</div>
+
+        <nav class="navigation">
+            <button class="nav-link active" data-page="dashboard">
+                <span>▦</span> Dashboard
+            </button>
+
+            <button class="nav-link" data-page="donate">
+                <span>♡</span> Donate Blood
+            </button>
+
+            <button class="nav-link" data-page="request">
+                <span>✚</span> Request Blood
+            </button>
+
+            <button class="nav-link" data-page="inventory">
+                <span>▤</span> Blood Inventory
+            </button>
+
+            <button class="nav-link" data-page="donations">
+                <span>♧</span> Donation Records
+            </button>
+
+            <button class="nav-link" data-page="requests">
+                <span>☷</span> Request Records
+            </button>
+        </nav>
+
+        <div class="sidebar-bottom">
+            <div class="help-card">
+                <div class="help-icon">♥</div>
+                <h3>Every drop counts.</h3>
+                <p>Your donation could give someone another chance at life.</p>
+                <button id="sidebarDonateBtn">Become a donor →</button>
+            </div>
+
+            <div class="sidebar-footer">
+                <span class="status-dot"></span>
+                Frontend Demo Mode
+            </div>
+        </div>
+    </aside>
+
+    <!-- Main area -->
+    <main class="main-content">
+
+        <header class="topbar">
+            <div>
+                <button class="mobile-menu" id="mobileMenu">☰</button>
+                <p class="breadcrumb">LifeDrop / <span id="breadcrumb">Dashboard</span></p>
+                <h1 id="pageTitle">Dashboard Overview</h1>
+            </div>
+
+            <div class="topbar-right">
+                <div class="today-date" id="todayDate"></div>
+                <div class="profile">
+                    <div class="profile-avatar">LD</div>
+                    <div>
+                        <strong>Blood Bank</strong>
+                        <small>Demo Administrator</small>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Dashboard -->
+        <section class="page active" id="dashboard">
+
+            <div class="welcome-banner">
+                <div class="welcome-content">
+                    <span class="eyebrow">LIFEDROP BLOOD BANK</span>
+                    <h2>Give blood. Give hope. <span>Save lives.</span></h2>
+                    <p>
+                        Manage donations, track blood availability, and organize
+                        blood requests through one simple dashboard.
+                    </p>
+
+                    <div class="banner-actions">
+                        <button class="btn btn-white" data-goto="donate">
+                            ♡ Donate Blood
+                        </button>
+                        <button class="btn btn-outline" data-goto="request">
+                            Request Blood →
+                        </button>
+                    </div>
+                </div>
+
+                <div class="blood-illustration" aria-hidden="true">
+                    <div class="blood-circle">✚</div>
+                    <div class="floating-heart">♥</div>
+                    <div class="floating-plus">+</div>
+                </div>
+            </div>
+
+            <!-- Summary cards -->
+            <div class="stats-grid">
+
+                <div class="stat-card">
+                    <div class="stat-top">
+                        <span>Total Blood Units</span>
+                        <div class="stat-icon red">✚</div>
+                    </div>
+                    <h2 id="totalUnits">160</h2>
+                    <p class="stat-description">Across all blood groups</p>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-top">
+                        <span>Registered Donors</span>
+                        <div class="stat-icon green">♧</div>
+                    </div>
+                    <h2 id="totalDonors">128</h2>
+                    <p class="stat-description">Donation applications included</p>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-top">
+                        <span>Blood Requests</span>
+                        <div class="stat-icon orange">☷</div>
+                    </div>
+                    <h2 id="totalRequests">0</h2>
+                    <p class="stat-description">Requests submitted in this demo</p>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-top">
+                        <span>Pending Requests</span>
+                        <div class="stat-icon purple">◷</div>
+                    </div>
+                    <h2 id="pendingRequests">0</h2>
+                    <p class="stat-description">Awaiting review</p>
+                </div>
+
+            </div>
+
+            <!-- Dashboard columns -->
+            <div class="dashboard-grid">
+
+                <div class="panel inventory-panel">
+                    <div class="panel-heading">
+                        <div>
+                            <h3>Blood Availability</h3>
+                            <p>Sample inventory across all blood groups</p>
+                        </div>
+                        <button class="text-button" data-goto="inventory">
+                            View all →
+                        </button>
+                    </div>
+
+                    <div class="blood-grid" id="dashboardBloodGrid"></div>
+
+                    <div class="inventory-note">
+                        <span>●</span>
+                        <p>Demo inventory only. Confirm actual stock with a blood bank.</p>
+                    </div>
+                </div>
+
+                <div class="panel activity-panel">
+                    <div class="panel-heading">
+                        <div>
+                            <h3>Recent Activity</h3>
+                            <p>Your latest demo submissions</p>
+                        </div>
+                    </div>
+
+                    <div id="recentActivity" class="activity-list"></div>
+                </div>
+
+            </div>
+
+            <!-- Quick actions -->
+            <div class="panel quick-panel">
+                <div class="panel-heading">
+                    <div>
+                        <h3>Quick Actions</h3>
+                        <p>Get started with a blood bank operation</p>
+                    </div>
+                </div>
+
+                <div class="quick-actions">
+                    <button class="quick-action" data-goto="donate">
+                        <div class="quick-icon red">♡</div>
+                        <div>
+                            <strong>Register a Donation</strong>
+                            <p>Submit donor information</p>
+                        </div>
+                        <span>→</span>
+                    </button>
+
+                    <button class="quick-action" data-goto="request">
+                        <div class="quick-icon orange">✚</div>
+                        <div>
+                            <strong>Request Blood</strong>
+                            <p>Submit a blood requirement</p>
+                        </div>
+                        <span>→</span>
+                    </button>
+
+                    <button class="quick-action" data-goto="inventory">
+                        <div class="quick-icon green">▤</div>
+                        <div>
+                            <strong>Check Inventory</strong>
+                            <p>Review sample stock levels</p>
+                        </div>
+                        <span>→</span>
+                    </button>
+                </div>
+            </div>
+
+        </section>
+
+        <!-- Donate Blood -->
+        <section class="page" id="donate">
+
+            <div class="section-intro">
+                <div>
+                    <span class="section-tag">BE A LIFESAVER</span>
+                    <h2>Donate Blood</h2>
+                    <p>Register your interest in donating blood.</p>
+                </div>
+                <div class="large-section-icon red">♡</div>
+            </div>
+
+            <div class="form-layout">
+
+                <div class="panel form-panel">
+                    <div class="panel-heading">
+                        <div>
+                            <h3>Donor Registration Form</h3>
+                            <p>Enter the donor's information below.</p>
+                        </div>
+                    </div>
+
+                    <form id="donationForm">
+
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label for="donorName">Full Name *</label>
+                                <input type="text" id="donorName" placeholder="Enter full name" required maxlength="100">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="donorAge">Age *</label>
+                                <input type="number" id="donorAge" min="18" max="100" placeholder="Age" required>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="donorGender">Gender</label>
+                                <select id="donorGender">
+                                    <option value="">Select gender</option>
+                                    <option>Male</option>
+                                    <option>Female</option>
+                                    <option>Other</option>
+                                    <option>Prefer not to say</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="donorBlood">Blood Group *</label>
+                                <select id="donorBlood" required>
+                                    <option value="">Select blood group</option>
+                                    <option>A+</option>
+                                    <option>A-</option>
+                                    <option>B+</option>
+                                    <option>B-</option>
+                                    <option>O+</option>
+                                    <option>O-</option>
+                                    <option>AB+</option>
+                                    <option>AB-</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="donorPhone">Phone Number *</label>
+                                <input type="tel" id="donorPhone" placeholder="10-digit mobile number" pattern="[0-9]{10}" maxlength="10" required>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="donorEmail">Email Address</label>
+                                <input type="email" id="donorEmail" placeholder="example@email.com">
+                            </div>
+
+                            <div class="form-group full-width">
+                                <label for="donorCity">City / Location *</label>
+                                <input type="text" id="donorCity" placeholder="Enter your city" maxlength="100" required>
+                            </div>
+
+                            <div class="form-group full-width">
+                                <label for="donorDate">Preferred Donation Date *</label>
+                                <input type="date" id="donorDate" required>
+                            </div>
+                        </div>
+
+                        <div class="form-notice">
+                            <strong>Important:</strong> Submitting this form does not confirm
+                            medical eligibility or book a real appointment. A qualified
+                            blood bank must assess eligibility.
+                        </div>
+
+                        <div class="form-actions">
+                            <button type="reset" class="btn btn-light">Clear Form</button>
+                            <button type="submit" class="btn btn-primary">Submit Registration →</button>
+                        </div>
+
+                    </form>
+                </div>
+
+                <div class="side-info">
+                    <div class="info-card red-info">
+                        <div class="info-card-icon">♥</div>
+                        <h3>Your donation matters</h3>
+                        <p>
+                            Donated blood helps support patients undergoing surgery,
+                            receiving cancer treatment, and recovering from emergencies.
+                        </p>
+                    </div>
+
+                    <div class="panel checklist-panel">
+                        <h3>Before donating</h3>
+                        <div class="check-item"><span>✓</span> Get adequate rest.</div>
+                        <div class="check-item"><span>✓</span> Eat a balanced meal.</div>
+                        <div class="check-item"><span>✓</span> Stay well hydrated.</div>
+                        <div class="check-item"><span>✓</span> Bring valid identification.</div>
+                        <p class="small-note">
+                            Follow the blood bank's instructions and eligibility screening.
+                        </p>
+                    </div>
+                </div>
+
+            </div>
+
+        </section>
+
+        <!-- Request Blood -->
+        <section class="page" id="request">
+
+            <div class="section-intro">
+                <div>
+                    <span class="section-tag">HELP IS WITHIN REACH</span>
+                    <h2>Request Blood</h2>
+                    <p>Submit a sample blood requirement for a patient or hospital.</p>
+                </div>
+                <div class="large-section-icon orange">✚</div>
+            </div>
+
+            <div class="form-layout">
+
+                <div class="panel form-panel">
+                    <div class="panel-heading">
+                        <div>
+                            <h3>Blood Request Form</h3>
+                            <p>Provide the details required for your request.</p>
+                        </div>
+                    </div>
+
+                    <form id="requestForm">
+
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label for="requesterName">Patient / Requester Name *</label>
+                                <input type="text" id="requesterName" placeholder="Enter full name" required maxlength="100">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="hospitalName">Hospital Name *</label>
+                                <input type="text" id="hospitalName" placeholder="Enter hospital name" required maxlength="150">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="requestBlood">Required Blood Group *</label>
+                                <select id="requestBlood" required>
+                                    <option value="">Select blood group</option>
+                                    <option>A+</option>
+                                    <option>A-</option>
+                                    <option>B+</option>
+                                    <option>B-</option>
+                                    <option>O+</option>
+                                    <option>O-</option>
+                                    <option>AB+</option>
+                                    <option>AB-</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="requestUnits">Units Required *</label>
+                                <input type="number" id="requestUnits" min="1" max="100" placeholder="Enter units" required>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="requestPhone">Contact Number *</label>
+                                <input type="tel" id="requestPhone" placeholder="10-digit mobile number" pattern="[0-9]{10}" maxlength="10" required>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="requestCity">City *</label>
+                                <input type="text" id="requestCity" placeholder="Enter city" required maxlength="100">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="requestDate">Required By *</label>
+                                <input type="date" id="requestDate" required>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="requestPriority">Priority *</label>
+                                <select id="requestPriority" required>
+                                    <option value="Normal">Normal</option>
+                                    <option value="Urgent">Urgent</option>
+                                    <option value="Emergency">Emergency</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group full-width">
+                                <label for="requestReason">Additional Information</label>
+                                <textarea id="requestReason" rows="4" placeholder="Optional notes about the requirement" maxlength="500"></textarea>
+                            </div>
+                        </div>
+
+                        <div class="form-notice">
+                            <strong>Medical emergency?</strong> Contact a hospital and a licensed
+                            blood bank directly. This demo does not deliver blood or notify
+                            emergency services.
+                        </div>
+
+                        <div class="form-actions">
+                            <button type="reset" class="btn btn-light">Clear Form</button>
+                            <button type="submit" class="btn btn-primary">Submit Blood Request →</button>
+                        </div>
+
+                    </form>
+                </div>
+
+                <div class="side-info">
+                    <div class="info-card orange-info">
+                        <div class="info-card-icon">✚</div>
+                        <h3>Request assistance</h3>
+                        <p>
+                            Submit the required blood group and quantity to create
+                            a record for this frontend demonstration.
+                        </p>
+                    </div>
+
+                    <div class="panel checklist-panel">
+                        <h3>Request process</h3>
+
+                        <div class="process-item">
+                            <span>01</span>
+                            <div><strong>Submit details</strong><p>Provide patient and hospital information.</p></div>
+                        </div>
+
+                        <div class="process-item">
+                            <span>02</span>
+                            <div><strong>Review request</strong><p>In a real system, staff would verify the request.</p></div>
+                        </div>
+
+                        <div class="process-item">
+                            <span>03</span>
+                            <div><strong>Confirm availability</strong><p>Actual stock and compatibility must be confirmed.</p></div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </section>
+
+        <!-- Inventory -->
+        <section class="page" id="inventory">
+
+            <div class="section-intro">
+                <div>
+                    <span class="section-tag">STOCK MANAGEMENT</span>
+                    <h2>Blood Inventory</h2>
+                    <p>Review the demonstration stock for each blood group.</p>
+                </div>
+                <div class="large-section-icon red">▤</div>
+            </div>
+
+            <div class="inventory-summary">
+                <div class="panel inventory-summary-card">
+                    <span>Total Sample Units</span>
+                    <h2 id="inventoryTotal">160</h2>
+                </div>
+
+                <div class="panel inventory-summary-card">
+                    <span>Blood Groups Tracked</span>
+                    <h2>8</h2>
+                </div>
+
+                <div class="panel inventory-summary-card">
+                    <span>Low Stock Groups</span>
+                    <h2 id="lowStockGroups">0</h2>
+                </div>
+            </div>
+
+            <div class="panel">
+                <div class="panel-heading inventory-heading">
+                    <div>
+                        <h3>Available Blood Units</h3>
+                        <p>Illustrative stock figures, not live medical inventory.</p>
+                    </div>
+
+                    <input type="search" id="inventorySearch" class="search-input" placeholder="Search blood group...">
+                </div>
+
+                <div class="table-wrapper">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Blood Group</th>
+                                <th>Units Available</th>
+                                <th>Stock Level</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody id="inventoryTable"></tbody>
+                    </table>
+                </div>
+            </div>
+
+        </section>
+
+        <!-- Donation records -->
+        <section class="page" id="donations">
+
+            <div class="section-intro">
+                <div>
+                    <span class="section-tag">DONOR MANAGEMENT</span>
+                    <h2>Donation Records</h2>
+                    <p>View the donation registrations submitted through this interface.</p>
+                </div>
+                <button class="btn btn-primary" data-goto="donate">+ New Donation</button>
+            </div>
+
+            <div class="panel">
+                <div class="panel-heading records-heading">
+                    <div>
+                        <h3>Registered Donations</h3>
+                        <p id="donationRecordCount">0 records</p>
+                    </div>
+
+                    <input type="search" id="donationSearch" class="search-input" placeholder="Search donations...">
+                </div>
+
+                <div class="table-wrapper">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Donor</th>
+                                <th>Blood Group</th>
+                                <th>Phone</th>
+                                <th>Location</th>
+                                <th>Preferred Date</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody id="donationTable"></tbody>
+                    </table>
+                </div>
+            </div>
+
+        </section>
+
+        <!-- Request records -->
+        <section class="page" id="requests">
+
+            <div class="section-intro">
+                <div>
+                    <span class="section-tag">REQUEST MANAGEMENT</span>
+                    <h2>Blood Request Records</h2>
+                    <p>Review submitted blood requests and their demo statuses.</p>
+                </div>
+                <button class="btn btn-primary" data-goto="request">+ New Request</button>
+            </div>
+
+            <div class="panel">
+                <div class="panel-heading records-heading">
+                    <div>
+                        <h3>Submitted Requests</h3>
+                        <p id="requestRecordCount">0 records</p>
+                    </div>
+
+                    <input type="search" id="requestSearch" class="search-input" placeholder="Search requests...">
+                </div>
+
+                <div class="table-wrapper">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Requester</th>
+                                <th>Hospital</th>
+                                <th>Blood Group</th>
+                                <th>Units</th>
+                                <th>Priority</th>
+                                <th>Required By</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody id="requestTable"></tbody>
+                    </table>
+                </div>
+            </div>
+
+        </section>
+
+        <footer class="main-footer">
+            <p>© <span id="currentYear"></span> LifeDrop Blood Bank Management System</p>
+            <p>Educational frontend prototype · Demo data only</p>
+        </footer>
+
+    </main>
+
+</div>
+
+<!-- Notification -->
+<div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+<script src="script.js"></script>
+
+</body>
+</html>
